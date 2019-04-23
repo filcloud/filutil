@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/ipfs/go-cid"
 	mbase "github.com/multiformats/go-multibase"
@@ -45,7 +46,7 @@ var CidParseCmd = &cobra.Command{
 			fmt.Printf("CIDv1: %s\n", v)
 			base, _, _ := mbase.Decode(v)
 			hash, _ := multihash.Decode(c.Hash())
-			fmt.Printf("  multibase: %s, cid-version: cidv%d, multicodec: %s, multihash: %s-%d-%s\n", multibaseNames[base], p.Version, cid.CodecToStr[p.Codec], multihash.Codes[p.MhType], 8*p.MhLength, hex.EncodeToString(hash.Digest))
+			fmt.Printf("  multibase: %s, cid-version: cidv%d, multicodec: %s, multihash: %s-%d-%s\n", strings.ToLower(multibaseNames[base]), p.Version, cid.CodecToStr[p.Codec], multihash.Codes[p.MhType], 8*p.MhLength, hex.EncodeToString(hash.Digest))
 		}
 	},
 }
