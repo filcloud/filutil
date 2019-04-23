@@ -1,13 +1,14 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"github.com/ipfs/go-cid"
+	"encoding/hex"
 	"fmt"
 	"os"
+
+	"github.com/ipfs/go-cid"
 	mbase "github.com/multiformats/go-multibase"
 	"github.com/multiformats/go-multihash"
-	"encoding/hex"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -18,7 +19,7 @@ func init() {
 
 var CidCmd = &cobra.Command{
 	Use:   "cid",
-	Short: "",
+	Short: "Commands for CID (Content Identifier)",
 	Long:  "",
 }
 
