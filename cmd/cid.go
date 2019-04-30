@@ -26,7 +26,7 @@ var CidCmd = &cobra.Command{
 
 var CidParseCmd = &cobra.Command{
 	Use:   "parse",
-	Short: "",
+	Short: "Parse and show parts of cid",
 	Long:  "",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

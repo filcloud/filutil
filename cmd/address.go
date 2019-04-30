@@ -24,7 +24,7 @@ var AddressCmd = &cobra.Command{
 
 var AddressParseCmd = &cobra.Command{
 	Use:   "parse",
-	Short: "",
+	Short: "Parse and show parts of filecoin address",
 	Long:  "",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
