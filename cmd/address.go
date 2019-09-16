@@ -3,10 +3,10 @@ package cmd
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/filecoin-project/go-leb128"
 	"os"
 
 	"github.com/filecoin-project/go-filecoin/address"
+	"github.com/filecoin-project/go-leb128"
 	"github.com/spf13/cobra"
 )
 

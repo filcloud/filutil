@@ -3,13 +3,14 @@ package cmd
 import (
 	"encoding/hex"
 	"fmt"
+	"os"
+	"path/filepath"
+
 	"github.com/filecoin-project/go-filecoin/paths"
 	keystore "github.com/ipfs/go-ipfs-keystore"
 	crypto "github.com/libp2p/go-libp2p-crypto"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
-	"os"
-	"path/filepath"
 )
 
 func init() {
@@ -37,7 +38,10 @@ var KeystoreLsCmd = &cobra.Command{
 			}
 		}()
 
-		repoDir = paths.GetRepoPath(repoDir)
+		repoDir, err = paths.GetRepoPath(repoDir)
+		if err != nil {
+			return
+		}
 		repoDir, err = homedir.Expand(repoDir)
 		if err != nil {
 			return
