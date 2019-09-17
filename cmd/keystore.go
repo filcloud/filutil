@@ -9,7 +9,6 @@ import (
 	"github.com/filecoin-project/go-filecoin/paths"
 	keystore "github.com/ipfs/go-ipfs-keystore"
 	crypto "github.com/libp2p/go-libp2p-crypto"
-	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
@@ -38,11 +37,7 @@ var KeystoreLsCmd = &cobra.Command{
 			}
 		}()
 
-		repoDir, err = paths.GetRepoPath(repoDir)
-		if err != nil {
-			return
-		}
-		repoDir, err = homedir.Expand(repoDir)
+		repoDir, err := paths.GetRepoPath(repoDir)
 		if err != nil {
 			return
 		}

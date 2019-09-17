@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/mitchellh/go-homedir"
 	"os"
 
 	"github.com/fatih/color"
@@ -9,9 +10,31 @@ import (
 )
 
 var repoDir string
+var filutilDir string
+
+const filutilDirEnvVar = "FILUTIL_DIR"
+const defaultFilutilDir = "~/.filutil"
+
+func getFilutilDir() string {
+	var dir string
+	if filutilDir != "" {
+		dir = filutilDir // command line flag
+	} else {
+		dir = os.Getenv(filutilDirEnvVar) // environment variable
+		if dir == "" {
+			dir = defaultFilutilDir // default
+		}
+	}
+	dir, err := homedir.Expand(dir)
+	if err != nil {
+		panic(err)
+	}
+	return dir
+}
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&repoDir, "repodir", "d", "~/.filecoin", "The directory of the filecoin repo")
+	rootCmd.PersistentFlags().StringVar(&repoDir, "repodir", "", "The directory of the filecoin repo")
+	rootCmd.PersistentFlags().StringVar(&filutilDir, "filutildir", "", "The directory of the filutil metadata")
 }
 
 // rootCmd represents the base command when called without any subcommands
