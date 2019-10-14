@@ -425,7 +425,7 @@ func openSectorBuilder() *SectorBuilder {
 	sb, err := sectorbuilder.NewRustSectorBuilder(sectorbuilder.RustSectorBuilderConfig{
 		BlockService:     blockService, // not used, so just memory repo
 		LastUsedSectorID: lastUsedSectorID,
-		MetadataDir:      stagingDir,
+		MetadataDir:      filepath.Join(getFilutilDir(), "metadata"),
 		MinerAddr:        minerAddr,
 		SealedSectorDir:  sealedDir,
 		SectorClass:      sectorClass,
