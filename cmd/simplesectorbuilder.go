@@ -253,7 +253,8 @@ func (sb *SimpleSectorBuilder) SealAllStagedUnsealedSectors() {
 
 	var wg sync.WaitGroup
 	for id, stagedSector := range stagedMap {
-		go func() {
+		wg.Add(1)
+		go func(id uint64, stagedSector multisectorbuilder.StagedSectorMetadata) {
 			defer wg.Done()
 			start := time.Now()
 			sealedSector, err := go_sectorbuilder.SealStagedSector(sb.ptr, minerAddr.String(), stagedSector, sectorbuilder.AddressToProverID(minerAddr))
@@ -272,7 +273,7 @@ func (sb *SimpleSectorBuilder) SealAllStagedUnsealedSectors() {
 			if err != nil {
 				panic(err)
 			}
-		}()
+		}(id, stagedSector)
 	}
 	wg.Wait()
 }
@@ -340,12 +341,19 @@ func openSimpleSectorBuilder() *SimpleSectorBuilder {
 
 	max := types.NewBytesAmount(go_sectorbuilder.GetMaxUserBytesPerStagedSector(sectorClass.SectorSize().Uint64()))
 
-	return &SimpleSectorBuilder{
+	sb := &SimpleSectorBuilder{
 		ptr:               ptr,
 		sectorManager:     multisectorbuilder.NewSectorStateManager(ds.Datastore),
 		MetaStore:         ds,
 		MaxBytesPerSector: max,
 	}
+
+	err = sb.sectorManager.LoadMiner(minerAddr)
+	if err != nil {
+		panic(err)
+	}
+
+	return sb
 }
 
 var SimpleSectorBuilderSealSectorsCmd = &cobra.Command{
